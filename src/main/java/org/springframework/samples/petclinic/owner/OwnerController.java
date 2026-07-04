@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +50,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 class OwnerController {
 
+	// Вручную создаем экземпляр логгера для текущего класса
+	private static final Logger log = LoggerFactory.getLogger(OwnerController.class);
+
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerRepository owners;
@@ -71,6 +76,7 @@ class OwnerController {
 
 	@GetMapping("/owners/new")
 	public String initCreationForm() {
+		log.info("[Ручное логирование] Пользователь запросил форму создания владельцев");
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -88,6 +94,7 @@ class OwnerController {
 
 	@GetMapping("/owners/find")
 	public String initFindForm() {
+		log.info("[Ручное логирование] Пользователь запросил форму поиска владельцев");
 		return "owners/findOwners";
 	}
 
@@ -135,6 +142,7 @@ class OwnerController {
 
 	@GetMapping("/owners/{ownerId}/edit")
 	public String initUpdateOwnerForm() {
+		log.info("[Ручное логирование] Пользователь запросил форму изменения владельцев");
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 

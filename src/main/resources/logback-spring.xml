@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Подключаем стандартные настройки Spring Boot -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+	<!-- 1. АППЕНДЕР ДЛЯ КОНСОЛИ -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- Выводим ID запроса, если он есть, для красоты -->
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [TraceID:%X{requestId}] %logger{36} - %msg%n</pattern>
+		</encoder>
+
+	</appender>
+
+	<!-- 2. АППЕНДЕР ДЛЯ ФАЙЛА (Аудит визитов) -->
+	<appender name="AUDIT_FILE" class="ch.qos.logback.core.FileAppender">
+		<file>logs/visits-audit.log</file> <!-- Путь к файлу -->
+		<encoder>
+			<!-- В файл пишем более детально, может быть даже в JSON -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} | LEVEL:%level | USER_IP:%X{userIp} | MSG: %msg%n</pattern>
+		</encoder>
+
+		<!-- Используем наш самописный класс -->
+		<filter class="org.springframework.samples.petclinic.logging.MdcTargetFilter" />
+	</appender>
+
+	<!-- Корневой логгер, подключающий оба аппендера -->
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="AUDIT_FILE" />
+	</root>
+
+</configuration>

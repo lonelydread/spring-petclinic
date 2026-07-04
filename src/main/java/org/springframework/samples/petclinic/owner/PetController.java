@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
@@ -43,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Arjen Poutsma
  * @author Wick Dynex
  */
+@Slf4j // Эта аннотация автоматически создает поле: private static final Logger log
 @Controller
 @RequestMapping("/owners/{ownerId}")
 class PetController {
@@ -98,6 +100,7 @@ class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
+		log.debug("Инициализация формы добавления питомца для владельца с ID: {}", owner.getId());
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -128,6 +131,7 @@ class PetController {
 
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm() {
+		log.debug("Инициализация формы изменения питомца");
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 

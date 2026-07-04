@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -39,8 +41,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Dave Syer
  * @author Wick Dynex
  */
+@Slf4j
 @Controller
 class VisitController {
+
+	// Константа для нашего флага
+	private static final String TARGET_FILE = "FILE_ONLY";
 
 	private final OwnerRepository owners;
 
@@ -105,9 +111,21 @@ class VisitController {
 			return "pets/createOrUpdateVisitForm";
 		}
 
-		owner.addVisit(petId, visit);
-		this.owners.save(owner);
-		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+		// Устанавливаем флаг в MDC перед логированием
+		MDC.put("logTarget", TARGET_FILE);
+		try {
+			// Этот лог уйдет ТОЛЬКО в файл благодаря конфигурации Logback
+			log.info("[MDC] Создан новый визит: дата={}, описание={}", visit.getDate(), visit.getDescription());
+
+			owner.addVisit(petId, visit);
+			this.owners.save(owner);
+			redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+		} finally {
+			// Обязательно очищаем флаг, чтобы следующие логи в этом потоке
+			// не улетели по ошибке в файл!
+			MDC.remove("logTarget");
+		}
+
 		return "redirect:/owners/{ownerId}";
 	}
 
