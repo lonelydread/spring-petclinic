@@ -47,6 +47,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Michael Isvy
  * @author Wick Dynex
  */
+
+// В этом классе было внедрено ручное логирование (Стандартный SLF4J без использования Lombok)
+
 @Controller
 class OwnerController {
 
@@ -76,6 +79,7 @@ class OwnerController {
 
 	@GetMapping("/owners/new")
 	public String initCreationForm() {
+		// Добавляем запись логирования
 		log.info("[Ручное логирование] Пользователь запросил форму создания владельцев");
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
@@ -94,6 +98,7 @@ class OwnerController {
 
 	@GetMapping("/owners/find")
 	public String initFindForm() {
+		// Добавляем запись логирования
 		log.info("[Ручное логирование] Пользователь запросил форму поиска владельцев");
 		return "owners/findOwners";
 	}
@@ -142,6 +147,7 @@ class OwnerController {
 
 	@GetMapping("/owners/{ownerId}/edit")
 	public String initUpdateOwnerForm() {
+		// Добавляем запись логирования
 		log.info("[Ручное логирование] Пользователь запросил форму изменения владельцев");
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
