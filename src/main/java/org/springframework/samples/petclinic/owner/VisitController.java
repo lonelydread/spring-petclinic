@@ -120,7 +120,8 @@ class VisitController {
 			owner.addVisit(petId, visit);
 			this.owners.save(owner);
 			redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
-		} finally {
+		}
+		finally {
 			// Обязательно очищаем флаг, чтобы следующие логи в этом потоке
 			// не улетели по ошибке в файл!
 			MDC.remove("logTarget");

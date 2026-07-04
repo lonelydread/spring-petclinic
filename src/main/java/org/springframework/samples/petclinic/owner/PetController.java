@@ -44,6 +44,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Arjen Poutsma
  * @author Wick Dynex
  */
+
+// В этом классе было внедрено ручное логирование с помощью Lombok
+
 @Slf4j // Эта аннотация автоматически создает поле: private static final Logger log
 @Controller
 @RequestMapping("/owners/{ownerId}")
@@ -100,7 +103,8 @@ class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
-		log.debug("Инициализация формы добавления питомца для владельца с ID: {}", owner.getId());
+		// Добавляем запись логирования
+		log.debug("[Ручное логирование] Инициализация формы добавления питомца для владельца с ID: {}", owner.getId());
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -131,7 +135,8 @@ class PetController {
 
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm() {
-		log.debug("Инициализация формы изменения питомца");
+		// Добавляем запись логирования
+		log.debug("[Ручное логирование] Инициализация формы изменения питомца");
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 

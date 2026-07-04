@@ -48,7 +48,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Wick Dynex
  */
 
-// В этом классе было внедрено ручное логирование (Стандартный SLF4J без использования Lombok)
+// В этом классе было внедрено ручное логирование (Стандартный SLF4J без использования
+// Lombok)
 
 @Controller
 class OwnerController {

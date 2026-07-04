@@ -6,6 +6,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+// Реализация аспектного логирования
+
+/**
+ * Позволяет вынести логирование технического характера (время выполнения, входящие
+ * аргументы контроллеров) из бизнес-кода. Код остается абсолютно чистым, а логирование
+ * происходит автоматически «вокруг» методов.
+ */
+
 @Aspect
 @Component
 @Slf4j
@@ -24,9 +32,11 @@ public class PerformanceLoggingAspect {
 			long executionTime = System.currentTimeMillis() - start;
 			log.info("[AOP] Метод {} успешно выполнен за {} мс", methodName, executionTime);
 			return proceed;
-		} catch (Throwable e) {
+		}
+		catch (Throwable e) {
 			log.error("[AOP ОШИБКА] В методе {} произошел сбой: {}", methodName, e.getMessage());
 			throw e;
 		}
 	}
+
 }
